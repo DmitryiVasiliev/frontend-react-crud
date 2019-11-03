@@ -1,26 +1,27 @@
 import axios from 'axios'
 
-const INSTRUCTOR = 'in28minutes'
-const COURSE_API_URL = 'http://localhost:8080'
-const INSTRUCTOR_API_URL = `${COURSE_API_URL}/instructors/${INSTRUCTOR}`
+const COURSE_API_URL = 'http://localhost:8080';
 
 class CourseDataService {
 
-    retrieveAllCourses(name) {
-        return axios.get(`${INSTRUCTOR_API_URL}/courses`);
-    }
-    deleteCourse(name,id){
-        return axios.delete(`${INSTRUCTOR_API_URL}/courses/${id}`);
-    }
-    retrieveCourse(name,id){
-        return axios.get(`${INSTRUCTOR_API_URL}/courses/${id}`);
-    }
-    updateCourse(name, id, course) {
-        return axios.put(`${INSTRUCTOR_API_URL}/courses/${id}`, course);
+    retrieveAllCourses() {
+        return axios.get(`${COURSE_API_URL}/courses`);
     }
 
-    createCourse(name, course) {
-        return axios.post(`${INSTRUCTOR_API_URL}/courses/`, course);
+    deleteCourse(id) {
+        return axios.delete(`${COURSE_API_URL}/courses/${id}`);
+    }
+
+    retrieveCourse(id) {
+        return axios.get(`${COURSE_API_URL}/courses/${id}`);
+    }
+
+    updateCourse(id, course) {
+        return axios.put(`${COURSE_API_URL}/courses/${id}`, course);
+    }
+
+    createCourse(course) {
+        return axios.post(`${COURSE_API_URL}/courses/`, course);
     }
 }
 

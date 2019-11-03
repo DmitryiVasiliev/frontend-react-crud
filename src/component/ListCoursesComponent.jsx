@@ -1,8 +1,6 @@
 import React, {Component} from "react";
 import CourseDataService from "../service/CourseDataService";
 
-const INSTRUCTOR = 'in28minutes';
-
 class ListCoursesComponent extends Component {
 
     constructor(props) {
@@ -21,10 +19,9 @@ class ListCoursesComponent extends Component {
     }
 
     refreshCourses() {
-        CourseDataService.retrieveAllCourses(INSTRUCTOR)//HARDCODED
+        CourseDataService.retrieveAllCourses()
             .then(
                 response => {
-                   // console.log(response);
                     this.setState({courses: response.data})
                 }
             )
@@ -39,6 +36,7 @@ class ListCoursesComponent extends Component {
                         <thead>
                         <tr>
                             <th>Id</th>
+                            <th>Name</th>
                             <th>Description</th>
                             <th>Update</th>
                             <th>Delete</th>
@@ -50,9 +48,18 @@ class ListCoursesComponent extends Component {
                                 course =>
                                     <tr key={course.id}>
                                         <td>{course.id}</td>
+                                        <td>{course.name}</td>
                                         <td>{course.description}</td>
-                                        <td><button className="btn btn-success" onClick={() => this.updateCourseClicked(course.id)}>Update</button></td>
-                                        <td><button className="btn btn-warning" onClick={() => this.deleteCourseClicked(course.id)}>Delete</button></td>
+                                        <td>
+                                            <button className="btn btn-success"
+                                                    onClick={() => this.updateCourseClicked(course.id)}>Update
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button className="btn btn-warning"
+                                                    onClick={() => this.deleteCourseClicked(course.id)}>Delete
+                                            </button>
+                                        </td>
                                     </tr>
                             )
                         }
@@ -65,20 +72,22 @@ class ListCoursesComponent extends Component {
             </div>
         )
     }
-    deleteCourseClicked(id){
-        CourseDataService.deleteCourse(INSTRUCTOR,id)
-            .then(response=>{
-                this.setState({message:`Delete of course ${id} Successful`})
+
+    deleteCourseClicked(id) {
+        CourseDataService.deleteCourse(id)
+            .then(() => {
+                this.setState({message: `Delete of course ${id} Successful`})
                 this.refreshCourses()
             })
     }
 
-    updateCourseClicked(id){
+    updateCourseClicked(id) {
         this.props.history.push(`/courses/${id}`)
     }
-    addCourseClicked(){
-    this.props.history.push(`/courses/-1`)
+
+    addCourseClicked() {
+        this.props.history.push(`/courses/add`)
     }
 }
 
-export default  ListCoursesComponent
+export default ListCoursesComponent
